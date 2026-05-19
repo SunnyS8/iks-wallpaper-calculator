@@ -27,9 +27,24 @@ powershell -ExecutionPolicy Bypass -File .\scripts\publish-to-github.ps1
 
 ### GitHub Pages (демо)
 
-После push в `main`/`master` workflow `.github/workflows/deploy.yml` соберёт сайт. В настройках репозитория: **Settings → Pages → Build and deployment → GitHub Actions**.
+1. Создайте репозиторий на GitHub и отправьте код в ветку **`main`** (или **`master`**).
+2. В репозитории: **Settings → Pages → Build and deployment** — выберите **GitHub Actions** (не «Deploy from a branch»).
+3. В **Settings → Actions → General → Workflow permissions** включите **Read and write permissions** и сохраните.
+4. Сделайте push (или **Actions → Deploy to GitHub Pages → Run workflow**). После зелёной галочки сайт будет по адресу:
 
-Если репозиторий называется иначе, измените `base` в `vite.config.ts` и путь в workflow под имя репозитория.
+   `https://<ваш-логин>.github.io/<имя-репозитория>/`
+
+Имя репозитория в URL подставляется автоматически (`BASE_PATH` в workflow); менять `vite.config.ts` не нужно.
+
+### Деплой «завис» или не идёт
+
+1. **Actions → откройте последний workflow → шаги.** Часто падает `build` (ошибка npm/TypeScript) — текст ошибки в логе шага.
+2. **Ожидание среды `github-pages`:** в том же запуске может появиться кнопка **Review deployments** или запрос на подтверждение — нажмите **Approve** (первый деплой иногда требует одобрения).
+3. **Settings → Actions → General:** в блоке **Workflow permissions** выберите **Read and write permissions** и сохраните (нужно для Pages).
+4. **Settings → Pages:** источник — **GitHub Actions**, ветка не важна для этого варианта.
+5. Зависший запуск: **Actions → workflow → Cancel workflow**, затем **Re-run all jobs** или сделайте пустой коммит и push.
+
+В репозитории должен быть актуальный `.github/workflows/deploy.yml` (в сборке используется `npm install`, чтобы не требовать `package-lock.json`).
 
 ## Формулы
 
