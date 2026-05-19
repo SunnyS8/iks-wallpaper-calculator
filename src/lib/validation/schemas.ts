@@ -10,11 +10,6 @@ const dimension = z
     `Шаг ${DIMENSION_STEP} м`,
   );
 
-const rollWidthSchema = z.enum(
-  ROLL_WIDTHS.map(String) as [string, string, string, string],
-  { message: 'Выберите ширину рулона' },
-);
-
 export const zoneSchema = z.object({
   id: z.string(),
   label: z.string().optional(),
