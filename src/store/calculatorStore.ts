@@ -3,12 +3,9 @@ import { createEmptyProfileMeters, type InsulationType } from '@/constants/catal
 import type { Wall, SocketPoint } from '@/types/wall';
 import type { CalculationResult } from '@/types/calculation';
 import { runFullCalculation } from '@/lib/calculations/aggregateMaterials';
+import { createId } from '@/lib/createId';
 
 export type WizardStep = 1 | 2 | 3 | 4;
-
-function createId(): string {
-  return crypto.randomUUID();
-}
 
 export function createDefaultWall(index: number): Wall {
   return {

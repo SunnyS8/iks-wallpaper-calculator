@@ -28,11 +28,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build (base = /${{ github.event.repository.name }}/)
+      - name: Build for GitHub Pages (relative asset paths)
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
-          BASE_PATH: /${{ github.event.repository.name }}/
+
+      # GitHub Pages: 404.html = index.html (SPA + прямые ссылки)
+      - name: Add 404.html for Pages
+        run: cp dist/index.html dist/404.html
+
+      - name: Verify build output
+        run: |
+          test -f dist/index.html
+          ls -la dist/assets/ | head -5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

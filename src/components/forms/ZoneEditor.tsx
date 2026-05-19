@@ -3,6 +3,7 @@ import { ROLL_WIDTHS } from '@/constants/catalogs';
 import type { Zone } from '@/types/wall';
 import { Button } from '@/components/ui/Button';
 import { NumberField } from '@/components/ui/NumberField';
+import { createId } from '@/lib/createId';
 
 interface ZoneEditorProps {
   zones: Zone[];
@@ -12,7 +13,7 @@ interface ZoneEditorProps {
 
 function newZone(index: number): Zone {
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     label: `Зона ${index}`,
     length: 1,
     rollWidth: 2.8,

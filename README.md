@@ -36,6 +36,15 @@ powershell -ExecutionPolicy Bypass -File .\scripts\publish-to-github.ps1
 
 Имя репозитория в URL подставляется автоматически (`BASE_PATH` в workflow); менять `vite.config.ts` не нужно.
 
+### Белая страница на GitHub Pages
+
+1. Открывайте **именно** (со слэшем в конце):  
+   **https://sunnys8.github.io/iks-wallpaper-calculator/**  
+   Адрес `https://sunnys8.github.io` без `/iks-wallpaper-calculator/` — **другая страница**, приложение там не лежит.
+2. **Settings → Pages → Build and deployment** — источник **GitHub Actions**, не «Deploy from a branch» (иначе в сеть уходит сырой `index.html` без сборки — белый экран).
+3. **F12 → Network** — обновите страницу: файлы `.js` в папке `assets` должны быть **200**, не **404**.
+4. Перезапустите деплой: **Actions → Deploy to GitHub Pages → Re-run all jobs**, затем Ctrl+F5.
+
 ### Деплой «завис» или не идёт
 
 1. **Actions → откройте последний workflow → шаги.** Часто падает `build` (ошибка npm/TypeScript) — текст ошибки в логе шага.
