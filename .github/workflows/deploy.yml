@@ -1,4 +1,3 @@
-# Деплой на GitHub Pages (после push в main/master или вручную: Actions → Run workflow)
 name: Deploy to GitHub Pages
 
 on:
@@ -19,30 +18,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build for GitHub Pages (relative asset paths)
+      - name: Build
         run: npm run build
-        env:
-          GITHUB_PAGES: 'true'
 
-      # GitHub Pages: 404.html = index.html (SPA + прямые ссылки)
-      - name: Add 404.html for Pages
-        run: cp dist/index.html dist/404.html
-
-      - name: Verify build output
+      - name: Prepare Pages artifact
         run: |
-          test -f dist/index.html
-          ls -la dist/assets/ | head -5
+          cp dist/index.html dist/404.html
+          echo "=== dist/index.html (script tags) ==="
+          grep -E "script|link" dist/index.html || true
+          echo "=== dist/assets ==="
+          ls -la dist/assets/
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
